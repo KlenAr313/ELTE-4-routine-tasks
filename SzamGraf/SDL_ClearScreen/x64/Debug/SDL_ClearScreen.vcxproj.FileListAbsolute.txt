@@ -1,0 +1,4 @@
+C:\Users\h9mrbv\Documents\SDL_ClearScreen\x64\Debug\SDL_ClearScreen.vcxproj.CopyComplete
+C:\Users\h9mrbv\Documents\SDL_ClearScreen\x64\Debug\SDL_ClearScreen.exe
+C:\Users\h9mrbv\Documents\SDL_ClearScreen\x64\Debug\glew32d.dll
+C:\Users\h9mrbv\Documents\SDL_ClearScreen\x64\Debug\SDL2d.dll
