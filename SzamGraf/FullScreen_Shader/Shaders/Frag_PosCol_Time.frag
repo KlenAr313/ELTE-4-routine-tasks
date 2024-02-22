@@ -14,14 +14,19 @@ uniform float ElapsedTimeInSec = 0.0;
 
 const float PI = 3.1415;
 
-float myFunc(float t)
-{
-	return cos(t*2*PI + ElapsedTimeInSec);
+float circle(float x, float y)
+{	
+	float h = (sqrt(x*x + y*y) + (cos(ElapsedTimeInSec * 2 ) + 1) / 2); 
+	if(h < 1.01 && h > 0.99)
+	{
+		return 1;
+	}
+	return 0;
 }
 
 void main()
 {
-	fs_out_col = vec4(vec3((myFunc(vs_out_pos.z) + 1)  * 0.5), 1.0);
+	fs_out_col = vec4(vec3(circle(vs_out_pos.x, vs_out_pos.y)), 1.0);
 }
 
 
