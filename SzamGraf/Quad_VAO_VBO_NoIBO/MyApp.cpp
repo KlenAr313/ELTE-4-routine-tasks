@@ -38,9 +38,9 @@ void CMyApp::CleanShaders()
 
 void CMyApp::InitGeometry()
 {
-	MeshObject<VertexPosColor> meshCPU;
+	MeshObject<VertexPosColor> meshCPUSide;
 
-	meshCPU.vertexArray = 
+	meshCPUSide.vertexArray = 
 	{
 		{ glm::vec3( -1, 1, 0), glm::vec3(1, 0, 0) },
 		{ glm::vec3(  -1, 0, 0), glm::vec3(1, 0, 0) },
@@ -54,9 +54,9 @@ void CMyApp::InitGeometry()
 		{ glm::vec3( 1, 0, 0), glm::vec3(0, 0.7, 0) },
 		{ glm::vec3(  1, 1, 0), glm::vec3(0, 0.7, 0) },
 
-		{ glm::vec3( 1, 0, 0), glm::vec3(1, 0, 0) },
-		{ glm::vec3( 0, -1, 0), glm::vec3(0.5, 0, 0) },
-		{ glm::vec3( 1,  -1, 0), glm::vec3(0.1, 0, 0) }
+		{ glm::vec3(1, 0, 0), glm::vec3(1, 0, 0) },
+		{ glm::vec3(0, -1, 0), glm::vec3(0.5, 0, 0) },
+		{ glm::vec3(1,  -1, 0), glm::vec3(0.1, 0, 0) }
 
 		//körlap a nényzetbe középütt, Ingui vertex, Külön vao vbo
 	};
@@ -72,8 +72,8 @@ void CMyApp::InitGeometry()
 
 	// töltsük fel adatokkal az aktív VBO-t
 	glBufferData(GL_ARRAY_BUFFER,	// az aktív VBO-ba töltsünk adatokat
-				  meshCPU.vertexArray.size() * sizeof(VertexPosColor),		// ennyi bájt nagyságban
-				  meshCPU.vertexArray.data(),	// erről a rendszermemóriabeli címről olvasva
+				  meshCPUSide.vertexArray.size() * sizeof(VertexPosColor),		// ennyi bájt nagyságban
+				  meshCPUSide.vertexArray.data(),	// erről a rendszermemóriabeli címről olvasva
 				  GL_STATIC_DRAW);	// úgy, hogy a VBO-nkba nem tervezünk ezután írni és minden kirajzoláskor felhasnzáljuk a benne lévő adatokat
 
 	glEnableVertexAttribArray(0); // ez lesz majd a pozíció
@@ -96,15 +96,67 @@ void CMyApp::InitGeometry()
 		reinterpret_cast<const void*>(offsetof(VertexPosColor,color )) // a 1. indexű attribútum hol kezdődik a sizeof(Vertex)-nyi területen belül
 	);
 
-	count = static_cast<GLsizei>(meshCPU.vertexArray.size());
+	count = static_cast<GLsizei>(meshCPUSide.vertexArray.size());
 	
 	glBindVertexArray( 0 ); // Kapcsoljuk ki a VAO-t!
+
+
+	MeshObject<VertexPosColor> meshCPUCircle;
+	
+	int N = 50;
+	float r = 1.41421/2;
+	float pi = 3.1415;
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) });
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(r, 0, 0), glm::vec3(0, 0, 0) });
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(r * cos(2 * pi * 1 / N), r * sin(2 * pi * 1 / N), 0), glm::vec3(0, 0, 0) });
+	for (int i = 2; i <= N; i++)
+	{
+		meshCPUCircle.vertexArray.push_back({ glm::vec3(r * cos(2 * pi * i / N), r * sin(2 * pi * i / N), 0), glm::vec3(0, 0, 0) });
+		meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) }); //Ezt itt nem értem, miért kell a közppont mindig
+	}
+
+	glGenVertexArrays(1, &vaoID1);
+	glBindVertexArray(vaoID1);
+
+	glGenBuffers(1, &vboID1);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID1);
+
+	glBufferData(GL_ARRAY_BUFFER,
+		meshCPUCircle.vertexArray.size() * sizeof(VertexPosColor),
+		meshCPUCircle.vertexArray.data(),
+		GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(VertexPosColor),
+		reinterpret_cast<const void*>(offsetof(VertexPosColor, position))
+	);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+		1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(VertexPosColor),
+		reinterpret_cast<const void*>(offsetof(VertexPosColor, color))
+	);
+
+	count1 = static_cast<GLsizei>(meshCPUCircle.vertexArray.size());
+
+	glBindVertexArray(0);
 }
 
 void CMyApp::CleanGeometry()
 {
 	glDeleteBuffers(1,      &vboID);
 	glDeleteVertexArrays(1, &vaoID);
+	glDeleteBuffers(1,		&vboID1);
+	glDeleteVertexArrays(1, &vaoID1);
 }
 
 bool CMyApp::Init()
@@ -162,6 +214,17 @@ void CMyApp::Render()
 
 	// VAO kikapcsolása
 	glBindVertexArray( 0 );
+
+
+	glBindVertexArray(vaoID1);
+
+	glUseProgram(m_programID);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, count1);
+
+	glUseProgram(0);
+
+	glBindVertexArray(0);
 }
 
 void CMyApp::RenderGUI()

@@ -70,6 +70,11 @@ protected:
 
 	GLsizei count = 0; // mennyi indexet/vertexet kell rajzolnunk
 
+	GLuint  vaoID1 = 1; // vertex array object erőforrás azonosító
+	GLuint  vboID1 = 1; // vertex buffer object erőforrás azonosító
+
+	GLsizei count1 = 1; // mennyi indexet/vertexet kell rajzolnunk
+
 	// Geometria inicializálása, és törtlése
 	void InitGeometry();
 	void CleanGeometry();
