@@ -210,15 +210,15 @@ void CMyApp::Render()
 				  count );		// hány csúcspontot használjunk a primitívek kirajzolására
 
 	// shader kikapcsolasa
-	glUseProgram( 0 );
+	//glUseProgram( 0 );
 
 	// VAO kikapcsolása
-	glBindVertexArray( 0 );
+	//glBindVertexArray( 0 );
 
 
 	glBindVertexArray(vaoID1);
 
-	glUseProgram(m_programID);
+	//glUseProgram(m_programID);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, count1);
 
