@@ -112,7 +112,7 @@ void CMyApp::InitGeometry()
 	for (int i = 2; i <= N; i++)
 	{
 		meshCPUCircle.vertexArray.push_back({ glm::vec3(r * cos(2 * pi * i / N), r * sin(2 * pi * i / N), 0), glm::vec3(0, 0, 0) });
-		meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) }); //Ezt itt nem értem, miért kell a közppont mindig
+		meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) }); //Ezt itt nem értem, miért kell a középpont mindig
 	}
 
 	glGenVertexArrays(1, &vaoID1);
