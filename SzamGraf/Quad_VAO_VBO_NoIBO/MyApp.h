@@ -52,6 +52,8 @@ protected:
 
 	float m_ElapsedTimeInSec = 0.0f;
 
+	int cicleVertexCnt = 50;
+
 	//
 	// OpenGL-es dolgok
 	//
@@ -78,5 +80,7 @@ protected:
 	// Geometria inicializálása, és törtlése
 	void InitGeometry();
 	void CleanGeometry();
+
+	void RefreshCircleGeometry();
 };
 

@@ -103,8 +103,63 @@ void CMyApp::InitGeometry()
 
 	MeshObject<VertexPosColor> meshCPUCircle;
 	
-	int N = 50;
+	int N = cicleVertexCnt;
 	float r = 1.41421/2;
+	float pi = 3.1415;
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) });
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(r, 0, 0), glm::vec3(0, 0, 0) });
+	meshCPUCircle.vertexArray.push_back({ glm::vec3(r * cos(2 * pi * 1 / N), r * sin(2 * pi * 1 / N), 0), glm::vec3(0, 0, 0) });
+	for (int i = 2; i <= N; i++)
+	{
+		meshCPUCircle.vertexArray.push_back({ glm::vec3(r * cos(2 * pi * i / N), r * sin(2 * pi * i / N), 0), glm::vec3(0, 0, 0) });
+		meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) }); //Ezt itt nem értem, miért kell a középpont mindig
+	}
+
+	glGenVertexArrays(1, &vaoID1);
+	glBindVertexArray(vaoID1);
+
+	glGenBuffers(1, &vboID1);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID1);
+
+	glBufferData(GL_ARRAY_BUFFER,
+		meshCPUCircle.vertexArray.size() * sizeof(VertexPosColor),
+		meshCPUCircle.vertexArray.data(),
+		GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(VertexPosColor),
+		reinterpret_cast<const void*>(offsetof(VertexPosColor, position))
+	);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(
+		1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(VertexPosColor),
+		reinterpret_cast<const void*>(offsetof(VertexPosColor, color))
+	);
+
+	count1 = static_cast<GLsizei>(meshCPUCircle.vertexArray.size());
+
+	glBindVertexArray(0);
+}
+
+void CMyApp::RefreshCircleGeometry()
+{
+	glDeleteBuffers(1, &vboID1);
+	glDeleteVertexArrays(1, &vaoID1);
+
+	MeshObject<VertexPosColor> meshCPUCircle;
+
+	int N = cicleVertexCnt;
+	float r = 1.41421 / 2;
 	float pi = 3.1415;
 	meshCPUCircle.vertexArray.push_back({ glm::vec3(0, 0, 0), glm::vec3(1, 0, 0) });
 	meshCPUCircle.vertexArray.push_back({ glm::vec3(r, 0, 0), glm::vec3(0, 0, 0) });
@@ -230,6 +285,13 @@ void CMyApp::Render()
 void CMyApp::RenderGUI()
 {
 	// ImGui::ShowDemoWindow();
+
+	if (ImGui::Begin("My Window"))
+	{
+		if (ImGui::SliderInt("Vertex Count", &cicleVertexCnt, 4, 60))
+			RefreshCircleGeometry();
+	}
+	ImGui::End();
 }
 
 // https://wiki.libsdl.org/SDL2/SDL_KeyboardEvent
