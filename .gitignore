@@ -6,3 +6,5 @@ obj/
 *.o
 
 .vscode/
+
+x64/
