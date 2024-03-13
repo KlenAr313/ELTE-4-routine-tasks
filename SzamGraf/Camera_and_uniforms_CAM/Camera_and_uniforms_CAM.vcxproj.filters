@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -39,6 +39,9 @@
     <ClCompile Include="includes\Camera.cpp">
       <Filter>GL Utils</Filter>
     </ClCompile>
+    <ClCompile Include="CameraManipulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyApp.h">
@@ -53,6 +56,9 @@
     <ClInclude Include="includes\Camera.h">
       <Filter>GL Utils</Filter>
     </ClInclude>
+    <ClInclude Include="CameraManipulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Frag_PosCol.frag">
@@ -60,9 +66,6 @@
     </None>
     <None Include="Shaders\Vert_PosCol.vert">
       <Filter>Shaders</Filter>
-    </None>
-    <None Include="Camera_and_uniforms_CAM.md">
-      <Filter>ELTE_DEV_ONLY</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="15.0">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -82,22 +82,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraManipulator.cpp" />
     <ClCompile Include="MyApp.cpp" />
     <ClCompile Include="includes\SDL_GLDebugMessageCallback.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="includes\GLUtils.cpp" />
     <ClCompile Include="includes\Camera.cpp" />
-    </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraManipulator.h" />
     <ClInclude Include="MyApp.h" />
     <ClInclude Include="includes\SDL_GLDebugMessageCallback.h" />
     <ClInclude Include="includes\GLUtils.hpp" />
     <ClInclude Include="includes\Camera.h" />
-    </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Frag_PosCol.frag" />
     <None Include="Shaders\Vert_PosCol.vert" />
-    </ItemGroup>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

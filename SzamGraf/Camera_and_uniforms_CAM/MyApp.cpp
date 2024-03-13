@@ -44,16 +44,22 @@ void CMyApp::InitGeometry()
 
 	meshCPU.vertexArray =
 	{
-		{ glm::vec3(-1, -1, 0), glm::vec3(1, 0, 0) },
-		{ glm::vec3( 1, -1, 0), glm::vec3(0, 1, 0) },
-		{ glm::vec3(-1,  1, 0), glm::vec3(0, 0, 1) },
-		{ glm::vec3( 1,  1, 0), glm::vec3(1, 1, 1) }
+		{ glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) },
+		{ glm::vec3(0, 2, 0), glm::vec3(1, 0, 0) },
+		{ glm::vec3(1.000000, 0.000000 ,-1.000000), glm::vec3(0, 1, 0) },
+		{ glm::vec3(1.000000, 0.000000, 1.000000), glm::vec3(0, 0, 1) },
+		{ glm::vec3(-1.000000, 0.000000, -1.000000), glm::vec3(1, 1, 1) },
+		{ glm::vec3(-1.000000, 0.000000, 1.000000), glm::vec3(1, 1, 1) }
 	};
 
 	meshCPU.indexArray =
 	{
-		0, 1, 2,
-		1, 3, 2
+		3,1,5,
+		5,1,4,
+		2,1,3,
+		4,1,2,
+		4,2,3,
+		4,3,5
 	};
 
 	// 1 db VAO foglalasa
@@ -125,16 +131,18 @@ bool CMyApp::Init()
 	// egyéb inicializálás
 	//
 
-	glEnable(GL_CULL_FACE); // kapcsoljuk be a hátrafelé néző lapok eldobását
+	glDisable(GL_CULL_FACE); // kapcsoljuk be a hátrafelé néző lapok eldobását
 	glCullFace(GL_BACK);    // GL_BACK: a kamerától "elfelé" néző lapok, GL_FRONT: a kamera felé néző lapok
+	glPolygonMode(GL_BACK, GL_LINE);
 
 	glEnable(GL_DEPTH_TEST); // mélységi teszt bekapcsolása (takarás)
 
 	// kamera
 	m_camera.SetView(
-		glm::vec3(0.0, 0.0, 5.0),// honnan nézzük a színteret	   - eye
+		glm::vec3(5.0, 0.0, -5.0),// honnan nézzük a színteret	   - eye
 		glm::vec3(0.0, 0.0, 0.0),   // a színtér melyik pontját nézzük - at
 		glm::vec3(0.0, 1.0, 0.0));  // felfelé mutató irány a világban - up
+	m_cameraManipulator.SetCamera(&m_camera);
 
 	return true;
 }
@@ -148,6 +156,7 @@ void CMyApp::Clean()
 void CMyApp::Update( const SUpdateInfo& updateInfo )
 {
 	m_ElapsedTimeInSec = updateInfo.ElapsedTimeInSec;
+	m_cameraManipulator.Update(updateInfo.DeltaTimeInSec);
 }
 
 void CMyApp::Render()
@@ -168,7 +177,7 @@ void CMyApp::Render()
 	glUniformMatrix4fv( ul("viewProj"), 1, GL_FALSE, glm::value_ptr( m_camera.GetViewProj() ) );
 
 	// Transzformációs mátrixok
-	glm::mat4 matWorld = glm::identity<glm::mat4>();
+	glm::mat4 matWorld = glm::rotate(glm::radians(45.f), glm::vec3(0,1,1));
 
 	// https://registry.khronos.org/OpenGL-Refpages/gl4/html/glUniform.xhtml
 	glUniformMatrix4fv( ul("world"),// erre a helyre töltsünk át adatot
@@ -241,6 +250,7 @@ void CMyApp::KeyboardUp(const SDL_KeyboardEvent& key)
 
 void CMyApp::MouseMove(const SDL_MouseMotionEvent& mouse)
 {
+	m_cameraManipulator.MouseMove(mouse);
 }
 
 // https://wiki.libsdl.org/SDL2/SDL_MouseButtonEvent

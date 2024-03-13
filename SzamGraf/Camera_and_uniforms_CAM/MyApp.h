@@ -15,6 +15,7 @@
 // Utils
 #include "GLUtils.hpp"
 #include "Camera.h"
+#include "CameraManipulator.h"
 
 struct SUpdateInfo
 {
@@ -55,6 +56,7 @@ protected:
 
 	// Kamera
 	Camera m_camera;
+	CameraManipulator m_cameraManipulator;
 
 	//
 	// OpenGL-es dolgok
