@@ -6,10 +6,10 @@ void CameraManipulator::SetCamera(Camera* pCamera)
 
 	center = this->pCamera->GetAt();
 
-	glm::vec3 aim = center - this->pCamera->GetEye();
+	glm::vec3 aim = center + this->pCamera->GetEye();
 
 	distance = glm::length(aim);
-	fi = atan2f(aim.z, aim.x);
+	fi = -1 * atan2f(aim.z, aim.x) + 3.14f / 4;
 	theta = acosf(aim.y / distance);
 }
 
@@ -17,8 +17,8 @@ void CameraManipulator::MouseMove(const SDL_MouseMotionEvent& mouse)
 {
 	if (mouse.state & SDL_BUTTON_LMASK)
 	{
-		fi += mouse.xrel / 100.f;
-		theta = glm::clamp<float>(theta + mouse.yrel / 100.f, 0.1f, 3.1f);
+		fi -= mouse.xrel / 700.f;
+		theta = glm::clamp<float>(theta + mouse.yrel / 700.f, 0.1f, 3.1f);
 	}
 }
 
@@ -27,14 +27,15 @@ void CameraManipulator::Update(float elapsedTime)
 	if (!pCamera)
 		return;
 
-	fi += elapsedTime;
+	//fi += elapsedTime;
 
 	glm::vec3 lookDir(
 		cosf(fi) * sinf(theta),
 		cos(theta),
 		sinf(fi) * sinf(theta));
 
-	eye = center - distance * lookDir;
+	//eye.x = center.x + distance;
+	glm::vec3 lookat = eye - lookDir;
 
-	pCamera->SetView(eye, center, pCamera->GetWorldUp());
+	pCamera->SetView(eye, lookat, pCamera->GetWorldUp());
 }

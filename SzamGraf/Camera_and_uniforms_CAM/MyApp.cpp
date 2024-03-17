@@ -177,7 +177,7 @@ void CMyApp::Render()
 	glUniformMatrix4fv( ul("viewProj"), 1, GL_FALSE, glm::value_ptr( m_camera.GetViewProj() ) );
 
 	// Transzformációs mátrixok
-	glm::mat4 matWorld = glm::rotate(glm::radians(45.f), glm::vec3(0,1,1));
+	glm::mat4 matWorld = glm::rotate(glm::radians(0.f), glm::vec3(0, 1, 1));
 
 	// https://registry.khronos.org/OpenGL-Refpages/gl4/html/glUniform.xhtml
 	glUniformMatrix4fv( ul("world"),// erre a helyre töltsünk át adatot
