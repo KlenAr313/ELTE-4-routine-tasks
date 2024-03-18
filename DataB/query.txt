@@ -1,0 +1,27 @@
+-- Sz ÷ π gy σ n='Micimackó' Sz
+-- π n Sz - (Sz - π n Sz ⨯ π gy σ n='Micimackó' Sz)
+/*π n Sz - π n (π n Sz ⨯ π gy σ n='Micimackó' Sz - Sz)
+∩ 
+π n Sz - π n (Sz - π n Sz ⨯ π gy σ n='Micimackó' Sz)*/
+
+/*pi n sigma gy='alma' Sz
+∩
+pi n sigma gy='dió' Sz*/
+
+-- pi n sigma gy='alma' and gy='dió' Sz
+
+/*pi n sigma gy='alma' Sz
+∪
+pi n sigma gy='dió' Sz*/
+
+-- pi n sigma gy='alma' or gy='dió' Sz
+
+/*pi n sigma gy='alma' Sz
+-
+pi n sigma gy='dió' Sz*/
+
+-- pi sz1.n sigma sz1.n=sz2.n and sz1.gy != sz2.gy (ρ sz1 Sz x ρ sz2 Sz)
+
+Nsz = pi n Sz x pi gy Sz - Sz
+
+pi n Sz - pi n Nsz
