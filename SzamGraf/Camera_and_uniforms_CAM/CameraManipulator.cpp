@@ -6,10 +6,10 @@ void CameraManipulator::SetCamera(Camera* pCamera)
 
 	center = this->pCamera->GetAt();
 
-	glm::vec3 aim = center + this->pCamera->GetEye();
+	glm::vec3 aim = this->pCamera->GetEye() - center;
 
 	distance = glm::length(aim);
-	fi = -1 * atan2f(aim.z, aim.x) + 3.14f / 4;
+	fi = atan2f(aim.z, aim.x);
 	theta = acosf(aim.y / distance);
 }
 
