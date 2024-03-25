@@ -139,7 +139,7 @@ bool CMyApp::Init()
 
 	// kamera
 	m_camera.SetView(
-		glm::vec3(5.0, 0.0, -5.0),// honnan nézzük a színteret	   - eye
+		glm::vec3(0.0, -1.0, 5.0),// honnan nézzük a színteret	   - eye
 		glm::vec3(0.0, 0.0, 0.0),   // a színtér melyik pontját nézzük - at
 		glm::vec3(0.0, 1.0, 0.0));  // felfelé mutató irány a világban - up
 	m_cameraManipulator.SetCamera(&m_camera);
